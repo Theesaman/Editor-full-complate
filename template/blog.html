@@ -1,0 +1,180 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %} Portfolio {% endblock title %}
+{% block content %}
+
+
+
+
+        <!-- header -->
+        
+        
+        
+        
+        <!-- site-main -->
+        <div id="main" class="site-main">
+        
+        
+        
+        	            
+            <!-- primary -->
+        	<div id="primary" class="content-area">
+            	
+                <!-- site-content -->
+                <div id="content" class="site-content" role="main">
+                
+                
+                
+                
+                	
+                    
+                    <!-- InstanceBeginEditable name="FeaturedContent" -->
+					
+                    					
+					<!-- InstanceEndEditable -->
+                	
+                    
+                    
+                    <!-- layout-medium -->
+                	<div class="layout-medium">
+                    
+                    
+                    
+						<!-- InstanceBeginEditable name="LayoutMediumContent" -->
+                		
+                        
+                        <!-- entry-header -->
+                        <header class="entry-header">
+                        	<h1 class="entry-title">LATEST STORIES</h1>
+                        </header>
+                        <!-- entry-header -->
+                        
+                
+                
+                    	<!-- BLOG MASONRY -->
+                        <div class="masonry blog-masonry" data-layout="masonry" data-item-width="340">
+                            
+                            
+                            
+                            
+                            
+                            {% for blog in blogs %}
+                            <!-- .hentry -->
+                            <article class="hentry post">
+                            
+                                <!-- .featured-image -->
+                                <div class="featured-image">
+                                    <a href="{% url 'blog-single-page' blog.pk %}"><img src="{{blog.image.url}}" alt="blog-image"></a>
+                                </div>
+                                <!-- .featured-image -->
+                                
+                                
+                                <!-- .entry-header -->
+                                <header class="entry-header">
+                                    
+                                    <!-- .entry-title -->
+                                    <h1 class="entry-title"><a href="{% url 'blog-single-page' blog.pk %}">{{blog.title}}</a></h1>
+                                    
+                                    
+                                    <!-- .entry-meta -->
+                                    <div class="entry-meta">
+                                        <span class="entry-date">
+                                            <time class="entry-date" >{{blog.created_date}}</time>
+                                            <a href="{% url 'blog-single-page' blog.pk %}#comments">124 Comments</a>
+                                        </span> 
+                                    
+                                        <span class="cat-links">
+                                            <a href="#" title="View all posts in Adventure" rel="category tag">{{blog.category}}</a>
+                                        </span>	
+                                    </div>
+                                    <!-- .entry-meta -->
+                                    
+                                    
+                                </header>
+                                <!-- .entry-header -->
+                                
+                                <!-- .entry-content -->
+                                <div class="entry-content">
+                                                                    
+                                	<p>{{blog.content| safe | truncatewords:20}} </p>
+                                    <span >
+                                        <a href="{% url 'blog-single-page' blog.pk %}" class="more-link">Continue reading <span class="meta-nav">→</span></a>
+                                    </span>
+                                   
+                                </div>
+                                <!-- .entry-content -->
+                                
+                                
+                            </article>
+                            <!-- .hentry -->
+                            {% endfor %}
+                            
+                            
+                            
+                            
+                            
+                                                          
+                          
+                        </div>
+                        <!-- BLOG MASONRY -->
+               
+                    	
+                            
+                        
+                        <!-- .navigation .pagination -->
+                        <nav class="navigation pagination" role="navigation">
+                            
+                            <h2 class="screen-reader-text">Posts navigation</h2>
+                            
+                            <!-- .nav-links -->
+                            <div class="nav-links">
+
+                                {% if page_obj.has_previous %}
+<a class="page-numbers prev" href="?page={{ page_obj.previous_page_number }}">Prev</a>
+{% endif %}
+
+{% for page in page_obj.paginator.page_range %}
+    {% if page == page_obj.number %}
+        <span class="page-numbers current"><span class="meta-nav screen-reader-text">Page </span>{{ page }}</span>
+    {% elif page == 1 or page == page_obj.paginator.num_pages or page >= page_obj.number|add:-2 and page <= page_obj.number|add:2 %}
+        <a class="page-numbers" href="?page={{ page }}"><span class="meta-nav screen-reader-text">Page </span>{{ page }}</a>
+    {% elif page == page_obj.number|add:-3 or page == page_obj.number|add:3 %}
+        <span class="page-numbers dots">…</span>
+    {% endif %}
+{% endfor %}
+
+{% if page_obj.has_next %}
+<a class="page-numbers next" href="?page={{ page_obj.next_page_number }}">Next</a>
+{% endif %}
+
+                            </div> 
+                            <!-- .nav-links -->
+                            
+                        </nav> 
+                        <!-- .navigation .pagination -->
+              
+                                    
+                <!-- InstanceEndEditable -->
+                    	
+                        
+                    	
+                    </div>
+                    <!-- layout-medium -->
+                    
+                    
+                
+                
+                	
+                
+                </div>
+                <!-- site-content -->
+                
+            </div>
+            <!-- primary -->    
+        
+        
+        
+        
+        </div>
+        <!-- site-main -->
+        {% endblock content %}

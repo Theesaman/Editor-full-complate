@@ -1,0 +1,122 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %} Portfolio {% endblock title %}
+{% block content %}
+
+        
+        <!-- site-main -->
+        <div id="main" class="site-main">
+        
+        
+        
+        	            
+            <!-- primary -->
+        	<div id="primary" class="content-area">
+            	
+                <!-- site-content -->
+                <div id="content" class="site-content" role="main">
+                
+                
+                
+                
+                	
+                    
+                    <!-- InstanceBeginEditable name="FeaturedContent" -->
+					
+					
+					<!-- InstanceEndEditable -->
+                	
+                    
+                    
+                    <!-- layout-medium -->
+                	<div class="layout-medium">
+                    
+                    
+                    
+						<!-- InstanceBeginEditable name="LayoutMediumContent" -->
+                		
+                        
+                        
+                		<!-- .entry-header -->
+                        <header class="entry-header">
+                            
+                            <h1 class="entry-title">Outdoor Adventures</h1> 
+                             
+                            <!-- HEADER LINKS -->
+                            <ul class="header-links">
+                              <li><a href="{% url 'gallery-page' %}"><i class="pw-icon-level-up"></i> Back to Gallery</a></li>
+                            </ul>
+                            <!-- HEADER LINKS -->   
+                                                                                  
+                        </header>
+                        <!-- .entry-header -->
+                        
+                        
+                            
+                        <!-- rg-gallery -->
+                        <div id="rg-gallery" class="rg-gallery">
+                            
+                            
+                            <!-- thumbs -->
+                            <ul id="carousel" class="elastislide-list">
+                                {% for  gallery in gallery %}
+                                <li>
+                                    <a href="{{ gallery.image.url }}">
+                                        <img src="{{ gallery.image.url }}" alt="image01" data-description="From off a hill whose concave womb reworded" />
+                                    </a>
+                                </li>
+                                {% endfor %}
+                            </ul>
+                         	<!-- thumbs -->
+                            
+                            
+                            
+                            <!-- .rg-image-wrapper -->
+                            <div class="rg-image-wrapper">
+                                <div class="rg-image-nav">
+                                    <a href="#" class="rg-image-nav-prev">Previous Image</a>
+                                    <a href="#" class="rg-image-nav-next">Next Image</a>
+                                </div>
+                                <div class="rg-image"></div>
+                                <div class="rg-loading"></div>
+                                <div class="rg-caption-wrapper">
+                                    <div class="rg-caption">
+                                        <p></p>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- .rg-image-wrapper -->
+                            
+                            
+                               
+                        </div>
+                        <!-- rg-gallery -->
+                         
+                        
+                        
+                        
+                
+                	<!-- InstanceEndEditable -->
+                    	
+                        
+                    	
+                    </div>
+                    <!-- layout-medium -->
+                    
+                    
+                
+                
+                	
+                
+                </div>
+                <!-- site-content -->
+                
+            </div>
+            <!-- primary -->    
+        
+        
+        
+        
+        </div>
+        <!-- site-main -->
+        {% endblock content %}
