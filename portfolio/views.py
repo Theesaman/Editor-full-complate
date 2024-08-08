@@ -29,7 +29,11 @@ class ContactFormView(FormView):
 
 
 def index_view(request):
- return render(request,'index.html')
+    blogs=Blog.objects.all()
+    context={
+        "blogs":blogs
+    }
+    return render(request,'index.html', context)
 
 def about_view(request):
  return render(request,'about.html')
