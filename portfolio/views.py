@@ -1,12 +1,11 @@
-from django.shortcuts import render
-from .models import Category, Gallery,Portfolio,PortfolioCategory,Blog,Comment,GalleryCategory,Book,Portfolio_single
-from django.contrib import messages
-from django.http import HttpResponseRedirect
+from audioop import reverse
 from django.urls import reverse
-from hitcount.views import HitCountDetailView
-from django.core.paginator import Paginator
-from .forms import ContactForm
-from django.views.generic.edit import FormView
+from typing import Any
+from django.http import HttpResponse
+from django.shortcuts import render
+from .models import Category, Gallery,Portfolio,PortfolioCategory,Blog,Comment,GalleryCategory,Book
+from .forms import ContactForm, CommentForm
+from django.views.generic.edit import FormView, FormMixin
 from django.views.generic.detail import DetailView
 from .bot import send_message
 from django.views.generic.list import ListView
@@ -35,8 +34,7 @@ def index_view(request):
 def about_view(request):
  return render(request,'about.html')
 
-# def books_view(request):
-#  return render(request,'books.html')
+
 
 
 
@@ -51,8 +49,7 @@ class PortfolioListView(ListView):
         context["categories"] = PortfolioCategory.objects.all()
         return context
 
-# def gallery_view(request):
-#  return render(request, 'gallery.html')
+
 
 class GalleryListView(ListView):
    model = GalleryCategory
@@ -71,33 +68,49 @@ class GalleryDetailView(DetailView):
 
         return context
     
-# def blog_view(request):
-#  return render(request, 'blog.html')
+
 
 class BlogListView(ListView):
     model = Blog
-    # paginate_by = 100  # if pagination is desired
+    paginate_by = 3  # if pagination is desired
     context_object_name = 'blogs'
     template_name = "blog.html"
-    paginate_by = 1
+
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        context["blogs"] = Blog.objects.order_by('-created_date')
         context["categories"] = Category.objects.all()
         return context
 
-class BlogDetailView(DetailView):
+class BlogDetailView(FormMixin,DetailView):
     model = Blog
     template_name = "blog-single.html"
     context_object_name = "blog"
+    form_class = CommentForm
     
-
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["comments"] = Comment.objects.filter(blog=context.get('blog'))
         context['comments_count'] = Comment.objects.filter(blog=context.get('blog')).count()
 
         return context
+    
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        form = self.get_form()
+        if form.is_valid():
+            return self.form_valid(form)
+        else:
+            return self.form_invalid(form)
+
+    def form_valid(self, form):
+        form.instance.blog = self.object
+        form.save()
+        return super(BlogDetailView, self).form_valid(form)
+
+    def get_success_url(self):
+        return reverse('blog-single-page', kwargs={'pk': self.object.pk})
 
 
 def books_view(request):

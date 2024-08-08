@@ -1,17 +1,12 @@
-#form Modelform
 from django.forms import ModelForm
 from django import forms
-from .models import Contact
-
-# class ContactForm(forms.Form):
-#     name = forms.CharField(max_length=50)
-#     email = forms.EmailField(max_length=50)
-#     content = forms.TextInput()
+from .models import Contact,Comment
 
 class ContactForm(ModelForm):
+
     class Meta:
         model = Contact
-        fields = ["name","email","content"]
+        fields = ["name","email","content",]
     
     def clean(self):
  
@@ -26,7 +21,7 @@ class ContactForm(ModelForm):
         # conditions to be met for the username length
         if name:
             if len(name) < 3:
-                raise forms.ValidationError("Eng kamida 3ta belgili ism kiritish kerak")
+                raise forms.ValidationError("Must be at least 3 characters")
             #     self._errors['name'] = self.error_class([
             #         'Minimum 3 characters required'])
         else:
@@ -36,3 +31,10 @@ class ContactForm(ModelForm):
             self._errors['content'] = self.error_class([
                     'content is required'])
         return self.cleaned_data
+    
+    
+class CommentForm(ModelForm):
+    class Meta:
+        model = Comment
+        
+        fields = ['full_name','email','message',]

@@ -129,17 +129,16 @@
                             <!-- .nav-links -->
                             <div class="nav-links">
 
-                                {% if page_obj.has_previous %}
+{% if page_obj.has_previous %}
 <a class="page-numbers prev" href="?page={{ page_obj.previous_page_number }}">Prev</a>
 {% endif %}
 
 {% for page in page_obj.paginator.page_range %}
     {% if page == page_obj.number %}
         <span class="page-numbers current"><span class="meta-nav screen-reader-text">Page </span>{{ page }}</span>
-    {% elif page == 1 or page == page_obj.paginator.num_pages or page >= page_obj.number|add:-2 and page <= page_obj.number|add:2 %}
+        {% elif page == current_page|add:1 or page == current_page|add:-1 %}
         <a class="page-numbers" href="?page={{ page }}"><span class="meta-nav screen-reader-text">Page </span>{{ page }}</a>
-    {% elif page == page_obj.number|add:-3 or page == page_obj.number|add:3 %}
-        <span class="page-numbers dots">…</span>
+
     {% endif %}
 {% endfor %}
 
